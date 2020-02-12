@@ -70,4 +70,19 @@ public class BouncingBall implements Runnable {
         canvas.draw(ball);
         canvas.fill(ball);
     }
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+    public int getR() {
+        return radius;
+    }
+    public void Punch (BouncingBall Ball)
+    {
+        int u1;
+        int u2;
+    }
 }
