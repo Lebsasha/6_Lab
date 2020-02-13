@@ -24,6 +24,7 @@ public class Field extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D canvas = (Graphics2D) g;
+        Handle_Punches();
         for (BouncingBall ball: balls) {
             ball.paint(canvas);
         }

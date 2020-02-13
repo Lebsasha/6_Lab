@@ -1,5 +1,6 @@
 package bsu.rfe.java.group10.lab6.Lebedevskiy.varC;
 
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -16,11 +17,11 @@ public class BouncingBall implements Runnable {
     private int speed;
     private double speedX;
     private double speedY;
+    private boolean P;
     public BouncingBall(Field field) {
         this.field = field;
-        radius = new Double(Math.random()*(MAX_RADIUS -
-                MIN_RADIUS)).intValue() + MIN_RADIUS;
-        speed = new Double(Math.round(5*MAX_SPEED / radius)).intValue();
+        radius = new Double(Math.random()*(MAX_RADIUS - MIN_RADIUS)).intValue() + MIN_RADIUS;
+        speed = Math.round(5*MAX_SPEED / radius);
         if (speed>MAX_SPEED) {
             speed = MAX_SPEED;
         }
@@ -44,7 +45,7 @@ public class BouncingBall implements Runnable {
                 } else
                 if (x + speedX >= field.getWidth() - radius) {
                     speedX = -speedX;
-                    x=new Double(field.getWidth()-radius).intValue();
+                    x=field.getWidth()-radius;
                 } else
                 if (y + speedY <= radius) {
                     speedY = -speedY;
@@ -52,7 +53,7 @@ public class BouncingBall implements Runnable {
                 } else
                 if (y + speedY >= field.getHeight() - radius) {
                     speedY = -speedY;
-                    y=new Double(field.getHeight()-radius).intValue();
+                    y=field.getHeight()-radius;
                 } else {
                     x += speedX;
                     y += speedY;
@@ -60,6 +61,12 @@ public class BouncingBall implements Runnable {
                 Thread.sleep(16-speed);
             }
         } catch (InterruptedException ex) {
+            System.out.print("InterruptedException in Ball with x ");
+            System.out.print(x);
+            System.out.print(" and y ");
+            System.out.print(y);
+            System.out.print(" and radius ");
+            System.out.println(radius);
         }
     }
     public void paint(Graphics2D canvas) {
@@ -69,6 +76,10 @@ public class BouncingBall implements Runnable {
                 2*radius, 2*radius);
         canvas.draw(ball);
         canvas.fill(ball);
+        if (P) {
+            canvas.setColor(new Color(255-color.getRed(), 255-color.getGreen(), 255-color.getBlue()));
+            canvas.drawString("Punch", (int)x, (int)y);
+        }
     }
     public double getX() {
         return x;
@@ -84,5 +95,6 @@ public class BouncingBall implements Runnable {
     {
         int u1;
         int u2;
+        P=true;
     }
 }
