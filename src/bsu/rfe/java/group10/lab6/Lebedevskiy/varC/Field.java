@@ -5,19 +5,21 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Field extends JPanel {
     private boolean paused;
-    private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
-    private Timer repaintTimer = new Timer(10, new ActionListener() {
+    private ArrayList<BouncingBall> balls = new ArrayList<>(10);
+    public HashMap<BouncingBall, BouncingBall> nmap;
+    private Timer repaintTimer = new Timer(20, new ActionListener() {
         public void actionPerformed(ActionEvent ev) {
             repaint();
         }
     });
     public Field() {
+        nmap = new HashMap<>();
         setBackground(Color.WHITE);
         repaintTimer.start();
     }
@@ -29,11 +31,11 @@ public class Field extends JPanel {
             ball.paint(canvas);
         }
     }
-    public void addBall() {
+    public synchronized void addBall() {
         balls.add(new BouncingBall(this));
     }
 
-    public void Handle_Punches ()
+    public synchronized void Handle_Punches ()
     {
         BouncingBall Temp;
         BouncingBall Temp1;
@@ -42,11 +44,18 @@ public class Field extends JPanel {
             {
                 Temp = balls.get(i);
                 Temp1 = balls.get(j);
-                if ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) <= (Temp.getR()+Temp1.getR())*(Temp.getR()+Temp1.getR()))
+                if (((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) <= (Temp.getR()+Temp1.getR())*(Temp.getR()+Temp1.getR())))// && ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) > Temp.getR()) && ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) > Temp1.getR()))
                 {
-                    Temp.Punch(Temp1);
-//                    Temp1.Punch(Temp);
+                    if (nmap.get(Temp1) != Temp)
+                    {
+                        Temp.Punch(Temp1);
+//                      Temp1.Punch(Temp);
+                        nmap.put(Temp1, Temp);
+                    }
                 }
+                else
+                    if (nmap.get(Temp1) == Temp)
+                        nmap.remove(Temp1);
             }
     }
 

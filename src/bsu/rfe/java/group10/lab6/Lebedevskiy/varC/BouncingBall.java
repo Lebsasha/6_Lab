@@ -19,10 +19,13 @@ public class BouncingBall implements Runnable {
     private double speedY;
     private double angle;
     private boolean P;
+    private int Count_Temp;
+    private static int Count = 0;
+    private final int Num;
     public BouncingBall(Field field) {
         this.field = field;
         radius = (int)(Math.random()*(MAX_RADIUS - MIN_RADIUS)) + MIN_RADIUS;
-        speed = Math.round(5*MAX_SPEED / radius);///////////////////////////////////////////////////////////////////////////////Pay attention TODO
+        speed = Math.round(5.0*MAX_SPEED / radius);///////////////////////////////////////////////////////////////////////////////Pay attention TODO
         if (speed>MAX_SPEED) {
             speed = MAX_SPEED;
         }
@@ -37,6 +40,8 @@ public class BouncingBall implements Runnable {
         y = Math.random()*(field.getSize().getHeight()-2*radius) + radius;
         Thread thisThread = new Thread(this);
         thisThread.start();
+        Num = Count;
+        ++Count;
     }
     public void run() {
         try {
@@ -81,10 +86,10 @@ public class BouncingBall implements Runnable {
         canvas.fill(ball);
         canvas.setColor(new Color(255-color.getRed(), 255-color.getGreen(), 255-color.getBlue()));
         canvas.drawString(Double.toString(speed), (int) x, (int) y);
-        canvas.drawString(Double.toString(speedX), (int) x+20, (int) y);
-        canvas.drawString(Double.toString(speedY), (int) x+160, (int) y);
+//        canvas.drawString(Double.toString(speedX), (int) x+20, (int) y);
+//        canvas.drawString(Double.toString(speedY), (int) x+160, (int) y);
         if (P) {
-            //canvas.drawString("Punch", (int) x, (int) y);
+            canvas.drawString(Integer.toString(Count_Temp), (int) x, (int) y+10);
         }
     }
     public double getX() {
@@ -101,7 +106,7 @@ public class BouncingBall implements Runnable {
      * @implSpec
      * Angle_From_dx_dy in (-pi; pi]
      */
-    private double Angle_From_dx_dy (double dy, double dx)
+    public synchronized double Angle_From_dx_dy (double dy, double dx)
     {
         double alpha = dx != 0 ? Math.atan(dy/dx) : dy > 0 ? Math.PI/2 : -Math.PI;
 //       alpha = alpha + (dx < 0) ? dy >= 0 ? Math.PI :  -Math.PI : 0
@@ -118,6 +123,8 @@ public class BouncingBall implements Runnable {
         P=true;
         Ball.P = true;
         assert false;
+        ++Count_Temp;
+        ++Ball.Count_Temp;
 //        if (speed...)
         double dx = Ball.x - x;
         double dy = Ball.y - y;
@@ -142,5 +149,10 @@ public class BouncingBall implements Runnable {
         Ball.speed =/* (int) */speed2;
         Ball.speedX = speed2*Math.cos(a2);
         Ball.speedY = speed2*Math.sin(a2);
+    }
+
+    @Override
+    public int hashCode() {
+        return Num;
     }
 }

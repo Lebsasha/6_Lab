@@ -3,12 +3,8 @@ package bsu.rfe.java.group10.lab6.Lebedevskiy.varC;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import java.util.HashMap;
+import javax.swing.*;
 
 public class MyFrame extends JFrame {
     private static final int WIDTH = 700;
@@ -59,9 +55,16 @@ public class MyFrame extends JFrame {
         resumeMenuItem.setEnabled(false);
         getContentPane().add(field, BorderLayout.CENTER);
     }
+    public void Add_Balls(int n)
+    {
+        for (int i = 0; i < n; ++i)
+            field.addBall();
+    }
     public static void main(String[] args) {
         MyFrame frame = new MyFrame();
+//        String s = JOptionPane.showInputDialog(frame, "Count of balls", "Balls", JOptionPane.QUESTION_MESSAGE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        frame.Add_Balls(Integer.parseInt(JOptionPane.showInputDialog(frame, "Count of balls", "Balls", JOptionPane.QUESTION_MESSAGE)));
     }
 }
