@@ -45,7 +45,7 @@ public class Field extends JPanel {
                 if ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) <= (Temp.getR()+Temp1.getR())*(Temp.getR()+Temp1.getR()))
                 {
                     Temp.Punch(Temp1);
-                    Temp1.Punch(Temp);
+//                    Temp1.Punch(Temp);
                 }
             }
     }
@@ -57,8 +57,7 @@ public class Field extends JPanel {
         paused = false;
         notifyAll();
     }
-    public synchronized void canMove(BouncingBall ball) throws
-            InterruptedException {
+    public synchronized void canMove(BouncingBall ball) throws InterruptedException {
         if (paused) {
             wait();
         }
