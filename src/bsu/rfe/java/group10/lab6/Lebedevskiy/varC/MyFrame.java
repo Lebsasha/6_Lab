@@ -3,7 +3,6 @@ package bsu.rfe.java.group10.lab6.Lebedevskiy.varC;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
 import javax.swing.*;
 
 public class MyFrame extends JFrame {
@@ -55,16 +54,16 @@ public class MyFrame extends JFrame {
         resumeMenuItem.setEnabled(false);
         getContentPane().add(field, BorderLayout.CENTER);
     }
-    public void Add_Balls(int n)
+    public synchronized void Add_Balls(int n)
     {
+        pauseMenuItem.setEnabled(true);
         for (int i = 0; i < n; ++i)
             field.addBall();
     }
     public static void main(String[] args) {
         MyFrame frame = new MyFrame();
-//        String s = JOptionPane.showInputDialog(frame, "Count of balls", "Balls", JOptionPane.QUESTION_MESSAGE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        frame.Add_Balls(Integer.parseInt(JOptionPane.showInputDialog(frame, "Count of balls", "Balls", JOptionPane.QUESTION_MESSAGE)));
+        frame.Add_Balls(Integer.parseInt((String)JOptionPane.showInputDialog(frame, "Count of balls", "Balls", JOptionPane.QUESTION_MESSAGE, (Icon)null, (Object[])null, 40)));
     }
 }

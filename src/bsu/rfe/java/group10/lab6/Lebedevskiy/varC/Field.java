@@ -1,5 +1,7 @@
 package bsu.rfe.java.group10.lab6.Lebedevskiy.varC;
 
+import javafx.util.Pair;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,24 +14,25 @@ import javax.swing.Timer;
 public class Field extends JPanel {
     private boolean paused;
     private ArrayList<BouncingBall> balls = new ArrayList<>(10);
-    public HashMap<BouncingBall, BouncingBall> nmap;
-    private Timer repaintTimer = new Timer(20, new ActionListener() {
+//    public HashMap<BouncingBall, BouncingBall> nmap;
+    private ArrayList<Pair<BouncingBall, BouncingBall>> PairPunches;
+    private Timer repaintTimer = new Timer(10, new ActionListener() {
         public void actionPerformed(ActionEvent ev) {
             repaint();
         }
     });
     public Field() {
-        nmap = new HashMap<>();
+//        nmap = new HashMap<>();
+        PairPunches = new ArrayList<>();
         setBackground(Color.WHITE);
         repaintTimer.start();
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D canvas = (Graphics2D) g;
-        Handle_Punches();
-        for (BouncingBall ball: balls) {
+        for (BouncingBall ball: balls)
             ball.paint(canvas);
-        }
+        Handle_Punches();
     }
     public synchronized void addBall() {
         balls.add(new BouncingBall(this));
@@ -44,18 +47,21 @@ public class Field extends JPanel {
             {
                 Temp = balls.get(i);
                 Temp1 = balls.get(j);
+                Pair<BouncingBall, BouncingBall> P = new Pair<>(Temp, Temp1);
+                /*nmap.get(Temp1) == Temp*/
                 if (((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) <= (Temp.getR()+Temp1.getR())*(Temp.getR()+Temp1.getR())))// && ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) > Temp.getR()) && ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) > Temp1.getR()))
                 {
-                    if (nmap.get(Temp1) != Temp)
+                    if (!PairPunches.contains(P)/*nmap.get(Temp1) != Temp*/)
                     {
                         Temp.Punch(Temp1);
 //                      Temp1.Punch(Temp);
-                        nmap.put(Temp1, Temp);
+//                      nmap.put(Temp1, Temp);
+                        PairPunches.add(P);
                     }
                 }
                 else
-                    if (nmap.get(Temp1) == Temp)
-                        nmap.remove(Temp1);
+                    PairPunches.remove(P);
+//                  nmap.remove(Temp1);
             }
     }
 
