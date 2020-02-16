@@ -14,15 +14,15 @@ import javax.swing.Timer;
 public class Field extends JPanel {
     private boolean paused;
     private ArrayList<BouncingBall> balls = new ArrayList<>(10);
-//    public HashMap<BouncingBall, BouncingBall> nmap;
+//    public HashMap<BouncingBall, BouncingBall> nMap;
     private ArrayList<Pair<BouncingBall, BouncingBall>> PairPunches;
-    private Timer repaintTimer = new Timer(10, new ActionListener() {
+    private Timer repaintTimer = new Timer(20, new ActionListener() {
         public void actionPerformed(ActionEvent ev) {
             repaint();
         }
     });
     public Field() {
-//        nmap = new HashMap<>();
+//        nMap = new HashMap<>();
         PairPunches = new ArrayList<>();
         setBackground(Color.WHITE);
         repaintTimer.start();
@@ -48,20 +48,20 @@ public class Field extends JPanel {
                 Temp = balls.get(i);
                 Temp1 = balls.get(j);
                 Pair<BouncingBall, BouncingBall> P = new Pair<>(Temp, Temp1);
-                /*nmap.get(Temp1) == Temp*/
+                /*nMap.get(Temp1) == Temp*/
                 if (((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) <= (Temp.getR()+Temp1.getR())*(Temp.getR()+Temp1.getR())))// && ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) > Temp.getR()) && ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) > Temp1.getR()))
                 {
-                    if (!PairPunches.contains(P)/*nmap.get(Temp1) != Temp*/)
+                    if (!PairPunches.contains(P)/*nMap.get(Temp1) != Temp*/)
                     {
                         Temp.Punch(Temp1);
 //                      Temp1.Punch(Temp);
-//                      nmap.put(Temp1, Temp);
+//                      nMap.put(Temp1, Temp);
                         PairPunches.add(P);
                     }
                 }
                 else
                     PairPunches.remove(P);
-//                  nmap.remove(Temp1);
+//                  nMap.remove(Temp1);
             }
     }
 

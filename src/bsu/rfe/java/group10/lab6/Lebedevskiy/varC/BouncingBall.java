@@ -4,7 +4,7 @@ import java.awt.*;
 //import java.awt.event.MouseAdapter;
 //import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
+//import java.awt.geom.GeneralPath;
 
 public class BouncingBall implements Runnable {
     private static final int MAX_RADIUS = 40;
@@ -19,8 +19,8 @@ public class BouncingBall implements Runnable {
     private double speedX;
     private double speedY;
     private double angle;
-    private boolean P;
-    private int Count_Temp;
+//    private boolean P;
+//    private int Count_Temp;
 //    private static int Count = 0;
 //    private final int Num;
 //    private Point a;
@@ -90,19 +90,19 @@ public class BouncingBall implements Runnable {
                 2*radius, 2*radius);
         canvas.draw(ball);
         canvas.fill(ball);
-        GeneralPath vSpeed = new GeneralPath();
-        vSpeed.moveTo(x, y);
-        vSpeed.lineTo(x + 5*speedX, y + 5*speedY);
-        canvas.setColor(new Color(0,0,0));
-        canvas.draw(vSpeed);
-        canvas.fill(vSpeed);
-        canvas.setColor(new Color(255-color.getRed(), 255-color.getGreen(), 255-color.getBlue()));
-        canvas.drawString(Double.toString(speed), (int) x, (int) y);
+//        GeneralPath vSpeed = new GeneralPath();
+//        vSpeed.moveTo(x, y);
+//        vSpeed.lineTo(x + 5*speedX, y + 5*speedY);
+//        canvas.setColor(new Color(0,0,0));
+//        canvas.draw(vSpeed);
+//        canvas.fill(vSpeed);
+//        canvas.setColor(new Color(255-color.getRed(), 255-color.getGreen(), 255-color.getBlue()));
+//        canvas.drawString(Double.toString(speed), (int) x, (int) y);
 //        canvas.drawString(Double.toString(speedX), (int) x+20, (int) y);
 //        canvas.drawString(Double.toString(speedY), (int) x+160, (int) y);
-        if (P) {
-            canvas.drawString(Integer.toString(Count_Temp), (int) x, (int) y+10);
-        }
+//        if (P) {
+//            canvas.drawString(Integer.toString(Count_Temp), (int) x, (int) y+10);
+//        }
     }
     public double getX() {
         return x;
@@ -134,12 +134,10 @@ public class BouncingBall implements Runnable {
 //        try{
 //        Ball.wait();
 //        synchronized(Ball) {
-            P = true;
-            Ball.P = true;
-            assert false;
-            ++Count_Temp;
-            ++Ball.Count_Temp;
-//        if (speed...)
+//            P = true;
+//            Ball.P = true;
+//            ++Count_Temp;
+//            ++Ball.Count_Temp;
             double dx = Ball.x - x;
             double dy = Ball.y - y;
             double a3 = Angle_From_dx_dy(dy, dx);

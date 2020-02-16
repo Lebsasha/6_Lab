@@ -3,6 +3,9 @@ package bsu.rfe.java.group10.lab6.Lebedevskiy.varC;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class MyFrame extends JFrame {
@@ -11,12 +14,13 @@ public class MyFrame extends JFrame {
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
     private Field field = new Field();
-    public MyFrame() {
+    public MyFrame(){
         super("Balls");
         setSize(WIDTH, HEIGHT);
         Toolkit kit = Toolkit.getDefaultToolkit();
         setLocation((kit.getScreenSize().width - WIDTH)/2,
                 (kit.getScreenSize().height - HEIGHT)/2);
+        setIconImage(kit.getImage("src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Ball.png"));//new ImageIcon(ImageIO.read(new File("Ball.png"))));
         setExtendedState(MAXIMIZED_BOTH);
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -64,6 +68,12 @@ public class MyFrame extends JFrame {
         MyFrame frame = new MyFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        frame.Add_Balls(Integer.parseInt((String)JOptionPane.showInputDialog(frame, "Count of balls", "Balls", JOptionPane.QUESTION_MESSAGE, (Icon)null, (Object[])null, 40)));
+        try {
+            frame.Add_Balls(Integer.parseInt((String) JOptionPane.showInputDialog(frame, "Count of balls", "Balls", JOptionPane.QUESTION_MESSAGE, new ImageIcon(ImageIO.read(new File("src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Ball.png"))), /*(Object[])*/ null, 8)));
+        }
+        catch (IOException ex)
+        {
+            System.out.println("Cannot find picture src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Ball.png");
+        }
     }
 }
