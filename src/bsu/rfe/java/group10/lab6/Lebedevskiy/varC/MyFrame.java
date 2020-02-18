@@ -3,9 +3,9 @@ package bsu.rfe.java.group10.lab6.Lebedevskiy.varC;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+//import java.io.File;
+//import java.io.IOException;
+//import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class MyFrame extends JFrame {
@@ -58,7 +58,7 @@ public class MyFrame extends JFrame {
         resumeMenuItem.setEnabled(false);
         getContentPane().add(field, BorderLayout.CENTER);
     }
-    public synchronized void Add_Balls(int n)
+    public void Add_Balls(int n)
     {
         pauseMenuItem.setEnabled(true);
         for (int i = 0; i < n; ++i)
@@ -68,12 +68,12 @@ public class MyFrame extends JFrame {
         MyFrame frame = new MyFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        try {
-            frame.Add_Balls(Integer.parseInt((String) JOptionPane.showInputDialog(frame, "Count of balls", "Balls", JOptionPane.QUESTION_MESSAGE, new ImageIcon(ImageIO.read(new File("src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Ball.png"))), /*(Object[])*/ null, 8)));
-        }
-        catch (IOException ex)
-        {
-            System.out.println("Cannot find picture src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Ball.png");
-        }
+//        try {
+            frame.Add_Balls(8);//Integer.parseInt((String) JOptionPane.showInputDialog(frame, "Count of balls", "Balls", JOptionPane.QUESTION_MESSAGE, new ImageIcon(ImageIO.read(new File("src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Ball.png"))), /*(Object[])*/ null, 8)));
+//        }
+//        catch (IOException ex)
+//        {
+//            System.out.println("Cannot find picture src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Ball.png");
+//        }
     }
 }

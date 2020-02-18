@@ -9,16 +9,16 @@ import java.awt.geom.Ellipse2D;
 public class BouncingBall implements Runnable {
     private static final int MAX_RADIUS = 40;
     private static final int MIN_RADIUS = 3;
-    private static final int MAX_SPEED = 15;
+    public static final int MAX_SPEED = 10;
     private Field field;
     private int radius;
     private Color color;
-    private double x;
-    private double y;
-    private double speed;
-    private double speedX;
-    private double speedY;
-    private double angle;
+    private volatile double x;
+    private volatile double y;
+    private volatile double speed;
+    private volatile Double speedX;
+    private volatile Double speedY;
+    private volatile Double angle;
 //    private boolean P;
 //    private int Count_Temp;
 //    private static int Count = 0;
@@ -48,29 +48,49 @@ public class BouncingBall implements Runnable {
     public void run() {
         try {
             while(true) {
-                field.canMove(this);
+                field.canMove();
                 if (x + speedX <= radius) {
+                    synchronized (speedX){
                     speedX = -speedX;
+                    }
                     x = radius;
-                    angle = Math.PI - angle;
+                    synchronized (angle) {
+                        angle = Math.PI - angle;
+                    }
                 } else
                 if (x + speedX >= field.getWidth() - radius) {
-                    speedX = -speedX;
+                    synchronized (speedX){
+                        speedX = -speedX;
+                    }
                     x=field.getWidth()-radius;
-                    angle = Math.PI - angle;
+                    synchronized (angle) {
+                        angle = Math.PI - angle;
+                    }
                 } else
                 if (y + speedY <= radius) {
-                    speedY = -speedY;
+                    synchronized (speedY){
+                        speedY = -speedY;
+                    }
                     y = radius;
-                    angle = -angle;
+                    synchronized (angle) {
+                        angle = - angle;
+                    }
                 } else
                 if (y + speedY >= field.getHeight() - radius) {
-                    speedY = -speedY;
+                    synchronized (speedY) {
+                        speedY = -speedY;
+                    }
                     y=field.getHeight()-radius;
+                    synchronized (angle) {
+                        angle = - angle;
+                    }
                 } else {
-                    x += speedX;
-                    y += speedY;
-                    angle = -angle;
+                    synchronized (Double.valueOf(x)) {
+                        x += speedX;
+                    }
+                    synchronized (Double.valueOf(y)) {
+                        y += speedY;
+                    }
                 }
                 Thread.sleep(20);
             }
@@ -83,7 +103,7 @@ public class BouncingBall implements Runnable {
             System.out.println(radius);
         }
     }
-    public void paint(Graphics2D canvas) {
+    public void paint(Graphics2D canvas){
         canvas.setColor(color);
         canvas.setPaint(color);
         Ellipse2D.Double ball = new Ellipse2D.Double(x-radius, y-radius,
@@ -114,13 +134,34 @@ public class BouncingBall implements Runnable {
     public int getR() {
         return radius;
     }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public void setSpeedX(Double speedX) {
+        this.speedX = speedX;
+    }
+
+    public void setSpeedY(Double speedY) {
+        this.speedY = speedY;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public Double getAngle() {
+        return angle;
+    }
+
     /**
      * @implSpec
      * Angle_From_dx_dy in (-pi; pi]
      */
-    public synchronized double Angle_From_dx_dy (double dy, double dx)
+    public static double Angle_From_dx_dy (double dy, double dx)
     {
-        double alpha = dx != 0 ? Math.atan(dy/dx) : dy > 0 ? Math.PI/2 : -Math.PI;
+        double alpha = (dx != 0) ? Math.atan(dy/dx) : dy > 0 ? Math.PI/2 : -Math.PI;
 //       alpha = alpha + (dx < 0) ? dy >= 0 ? Math.PI :  -Math.PI : 0
         if (dx < 0) {
             if (dy >= 0)
@@ -130,51 +171,51 @@ public class BouncingBall implements Runnable {
         }
         return alpha;
     }
-    public synchronized void Punch (BouncingBall Ball){
-//        try{
-//        Ball.wait();
-//        synchronized(Ball) {
-//            P = true;
-//            Ball.P = true;
-//            ++Count_Temp;
-//            ++Ball.Count_Temp;
-            double dx = Ball.x - x;
-            double dy = Ball.y - y;
-            double a3 = Angle_From_dx_dy(dy, dx);
-//            double a33 = a3*180/Math.PI;
-            double a1 = angle;
-//            double a11 = a1*180/Math.PI;
-            double a2 = Ball.angle;
-//            double a22 = a2*180/Math.PI;
-            double Y1NSpeed = speed * Math.sin(a3 - a1);
-            double Y2NSpeed = Ball.speed * Math.sin(a3 - a2);
-            double X1NSpeed = speed * Math.cos(a3 - a1);
-            double X2NSpeed = Ball.speed * Math.cos(a3 - a2);
-            double m1 = radius * radius;
-            double m2 = Ball.radius * Ball.radius;
-            double u1 = (2 * m2 * X2NSpeed + X1NSpeed * (m1 - m2)) / (m1 + m2);
-            double u2 = (2 * m1 * X1NSpeed + X2NSpeed * (m2 - m1)) / (m1 + m2);
-            double speed1 = Math.sqrt(u1 * u1 + Y1NSpeed * Y1NSpeed);
-            double speed2 = Math.sqrt(u2 * u2 + Y2NSpeed * Y2NSpeed);
-            a1 = a3 - Angle_From_dx_dy(Y1NSpeed, u1);
-            a2 = a3 - Angle_From_dx_dy(Y2NSpeed, u2);
-            speed =/* (int) */speed1;
-            speedX = speed1 * Math.cos(a1);
-            speedY = speed1 * Math.sin(a1);
-            Ball.speed =/* (int) */speed2;
-            Ball.speedX = speed2 * Math.cos(a2);
-            Ball.speedY = speed2 * Math.sin(a2);
-//            Ball.notify();
-//        }
-//        catch (InterruptedException ex) {
-//            System.out.print("InterruptedException in Ball with x ");
-//            System.out.print(Ball.x);
-//            System.out.print(" and y ");
-//            System.out.print(Ball.y);
-//            System.out.print(" and radius ");
-//            System.out.println(Ball.radius);
-//        }
-    }
+//    public synchronized void Punch (BouncingBall Ball){
+////        try{
+////        Ball.wait();
+//        //synchronized(Ball) {
+////            P = true;
+////            Ball.P = true;
+////            ++Count_Temp;
+////            ++Ball.Count_Temp;
+//            double dx = Ball.x - x;
+//            double dy = Ball.y - y;
+//            double a3 = Angle_From_dx_dy(dy, dx);
+////            double a33 = a3*180/Math.PI;
+//            double a1 = angle;
+////            double a11 = a1*180/Math.PI;
+//            double a2 = Ball.angle;
+////            double a22 = a2*180/Math.PI;
+//            double Y1NSpeed = speed * Math.sin(a3 - a1);
+//            double Y2NSpeed = Ball.speed * Math.sin(a3 - a2);
+//            double X1NSpeed = speed * Math.cos(a3 - a1);
+//            double X2NSpeed = Ball.speed * Math.cos(a3 - a2);
+//            double m1 = radius * radius;
+//            double m2 = Ball.radius * Ball.radius;
+//            double u1 = (2 * m2 * X2NSpeed + X1NSpeed * (m1 - m2)) / (m1 + m2);
+//            double u2 = (2 * m1 * X1NSpeed + X2NSpeed * (m2 - m1)) / (m1 + m2);
+//            double speed1 = Math.sqrt(u1 * u1 + Y1NSpeed * Y1NSpeed);
+//            double speed2 = Math.sqrt(u2 * u2 + Y2NSpeed * Y2NSpeed);
+//            a1 = a3 - Angle_From_dx_dy(Y1NSpeed, u1);
+//            a2 = a3 - Angle_From_dx_dy(Y2NSpeed, u2);
+//            speed =/* (int) */speed1;// <  MAX_SPEED ? speed1 : MAX_SPEED;
+//            speedX =/* speed1 * */Math.cos(a1);
+//            speedY = /*speed1 * */Math.sin(a1);
+//            Ball.speed =/* (int) */speed2;// < MAX_SPEED ? speed2 : MAX_SPEED;
+//            Ball.speedX = /*speed2 * */Math.cos(a2);
+//            Ball.speedY = /*speed2 **/ Math.sin(a2);
+////            Ball.notify();
+//        //}
+////        catch (InterruptedException ex) {
+////            System.out.print("InterruptedException in Ball with x ");
+////            System.out.print(Ball.x);
+////            System.out.print(" and y ");
+////            System.out.print(Ball.y);
+////            System.out.print(" and radius ");
+////            System.out.println(Ball.radius);
+////        }
+//    }
 
 //    @Override
 //    public int hashCode() {
