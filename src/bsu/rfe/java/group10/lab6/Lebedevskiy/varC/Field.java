@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -16,13 +17,15 @@ public class Field extends JPanel {
     //    public HashMap<BouncingBall, BouncingBall> nMap;
 //    static int k=0;
     private final ArrayList<BouncingBall> balls = new ArrayList<>(10);
+    private Semaphore SemForBalls;
     private Timer repaintTimer = new Timer(20, new ActionListener() {
         public void actionPerformed(ActionEvent ev) {
             repaint();
         }
     });
-    public Field() {
+    Field() {
 //        nMap = new HashMap<>();
+        SemForBalls = new Semaphore(1);
         PairPunches = new ArrayList<>(10);
         setBackground(Color.WHITE);
         repaintTimer.start();
@@ -30,20 +33,28 @@ public class Field extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D canvas = (Graphics2D) g;
-        synchronized (balls) {
+        try {
+            SemForBalls.acquire();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
             for (BouncingBall ball : balls)
                 ball.paint(canvas);
             Handle_Punches();
-        }
+        SemForBalls.release();
     }
-    public void addBall() {
-        synchronized (balls)
-        {
-        balls.add(new BouncingBall(this));
+    void addBall() {
+        try {
+            SemForBalls.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        balls.add(new BouncingBall(this));
+        SemForBalls.release();
     }
 
-    public void Handle_Punches ()
+    private void Handle_Punches()
     {
         BouncingBall Temp;
         BouncingBall Temp1;
@@ -97,14 +108,14 @@ public class Field extends JPanel {
          }
     }
 
-    public synchronized void pause() {
+    synchronized void pause() {
         paused = true;
     }
-    public synchronized void resume() {
+    synchronized void resume() {
         paused = false;
         notifyAll();
     }
-    public synchronized void canMove() throws InterruptedException {
+    synchronized void canMove() throws InterruptedException {
         if (paused) {
             wait();
         }
