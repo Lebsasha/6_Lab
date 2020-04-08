@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59227711-9a3b-47df-beda-a749b09bc43d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/alexander.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/alexander.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab6.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Lab6.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Ball.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Ball.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/BouncingBall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/BouncingBall.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/Field.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/MyFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bsu/rfe/java/group10/lab6/Lebedevskiy/varC/MyFrame.java" afterDir="false" />
@@ -45,9 +37,9 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>

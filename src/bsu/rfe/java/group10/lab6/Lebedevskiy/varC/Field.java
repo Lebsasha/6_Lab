@@ -39,9 +39,9 @@ public class Field extends JPanel {
         catch (InterruptedException e) {
             e.printStackTrace();
         }
-            for (BouncingBall ball : balls)
-                ball.paint(canvas);
-            Handle_Punches();
+        for (int i = 0; i < balls.size(); ++i)
+            balls.get(i).paint(canvas);
+        Handle_Punches();
         SemForBalls.release();
     }
     void addBall() {

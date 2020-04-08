@@ -1,10 +1,7 @@
 package bsu.rfe.java.group10.lab6.Lebedevskiy.varC;
 
 import java.awt.*;
-//import java.awt.event.MouseAdapter;
-//import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
-//import java.awt.geom.GeneralPath;
 
 public class BouncingBall implements Runnable {
     private static final int MAX_RADIUS = 40;
@@ -24,7 +21,7 @@ public class BouncingBall implements Runnable {
 //    private static int Count = 0;
 //    private final int Num;
 //    private Point a;
-    public BouncingBall(Field field) {
+    BouncingBall(Field field) {
         this.field = field;
         radius = (int)(Math.random()*(MAX_RADIUS - MIN_RADIUS)) + MIN_RADIUS;
         speed = Math.round(5.0*MAX_SPEED / radius);
@@ -47,7 +44,7 @@ public class BouncingBall implements Runnable {
     }
     public void run() {
         try {
-            while(true) {
+            while(!Thread.interrupted()) {
                 field.canMove();
                 if (x + speedX <= radius) {
                     synchronized (speedX){
@@ -103,7 +100,7 @@ public class BouncingBall implements Runnable {
             System.out.println(radius);
         }
     }
-    public void paint(Graphics2D canvas){
+    void paint(Graphics2D canvas){
         canvas.setColor(color);
         canvas.setPaint(color);
         Ellipse2D.Double ball = new Ellipse2D.Double(x-radius, y-radius,
@@ -124,34 +121,34 @@ public class BouncingBall implements Runnable {
 //            canvas.drawString(Integer.toString(Count_Temp), (int) x, (int) y+10);
 //        }
     }
-    public double getX() {
+    double getX() {
         return x;
     }
 
-    public double getY() {
+    double getY() {
         return y;
     }
-    public int getR() {
+    int getR() {
         return radius;
     }
 
-    public void setSpeed(double speed) {
+    void setSpeed(double speed) {
         this.speed = speed;
     }
 
-    public void setSpeedX(Double speedX) {
+    void setSpeedX(Double speedX) {
         this.speedX = speedX;
     }
 
-    public void setSpeedY(Double speedY) {
+    void setSpeedY(Double speedY) {
         this.speedY = speedY;
     }
 
-    public double getSpeed() {
+    double getSpeed() {
         return speed;
     }
 
-    public Double getAngle() {
+    Double getAngle() {
         return angle;
     }
 
@@ -159,7 +156,7 @@ public class BouncingBall implements Runnable {
      * @implSpec
      * Angle_From_dx_dy in (-pi; pi]
      */
-    public static double Angle_From_dx_dy (double dy, double dx)
+    static double Angle_From_dx_dy (double dy, double dx)
     {
         double alpha = (dx != 0) ? Math.atan(dy/dx) : dy > 0 ? Math.PI/2 : -Math.PI;
 //       alpha = alpha + (dx < 0) ? dy >= 0 ? Math.PI :  -Math.PI : 0
