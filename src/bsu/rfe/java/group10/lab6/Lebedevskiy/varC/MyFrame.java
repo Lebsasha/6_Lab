@@ -57,7 +57,7 @@ public class MyFrame extends JFrame {
     }
     private void Add_Balls()
     {
-        pauseMenuItem.setEnabled(true);
+        pauseMenuItem.setEnabled(true);//TODo Pause
         for (int i = 0; i < 8; ++i)
             field.addBall();
     }

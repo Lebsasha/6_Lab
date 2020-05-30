@@ -17,7 +17,7 @@ public class Field extends JPanel {
     //    public HashMap<BouncingBall, BouncingBall> nMap;
 //    static int k=0;
     private final ArrayList<BouncingBall> balls = new ArrayList<>(10);
-    private Semaphore SemForBalls;
+    private final Semaphore SemForBalls;
     private Timer repaintTimer = new Timer(20, new ActionListener() {
         public void actionPerformed(ActionEvent ev) {
             repaint();
