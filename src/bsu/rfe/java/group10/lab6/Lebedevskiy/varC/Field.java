@@ -63,7 +63,7 @@ public class Field extends JPanel {
                 for (int j = i + 1; j < balls.size(); ++j) {
                     Temp = balls.get(i);
                     Temp1 = balls.get(j);
-                    Pair<BouncingBall, BouncingBall> P = new Pair<>(Temp, Temp1);
+                    Pair<BouncingBall, BouncingBall> P = new Pair<>(Temp, Temp1);//because in the next iteration it can recalculate punch already bounced balls
                     /*nMap.get(Temp1) == Temp*/
                     if (((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) <= (Temp.getR()+Temp1.getR())*(Temp.getR()+Temp1.getR())))// && ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) > Temp.getR()*Temp.getR()) && ((Temp.getY()-Temp1.getY())*(Temp.getY()-Temp1.getY())+(Temp.getX()-Temp1.getX())*(Temp.getX()-Temp1.getX()) > Temp1.getR()*Temp1.getR()))
                     {
